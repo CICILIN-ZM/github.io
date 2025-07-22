@@ -1,0 +1,947 @@
+<style>
+  /* 全局样式 - 使用品牌色调 */
+  :root {
+    --primary-dark-blue: #476C94;
+    --primary-teal: #2D9EA1;
+    --primary-light-blue: #97C5EC;
+    --text-color: #333;
+    --light-bg: #f9f9f9;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 12px rgba(71, 108, 148, 0.1);
+  }
+  
+  /* 基础样式 */
+  body {
+    font-family: 'Arial', sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .product-section {
+    max-width: 90%;
+    margin: 40px auto;
+    padding: 0 5%;
+  }
+  
+  /* 折叠面板样式 - 更新版 */
+  .collapsible {
+    background-color: white;
+    color: var(--primary-dark-blue);
+    cursor: pointer;
+    padding: 20px;
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+    outline: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .collapsible:hover {
+    background-color: var(--light-bg);
+    border-color: var(--primary-light-blue);
+  }
+  
+  .active, .collapsible.active:hover {
+    background-color: var(--light-bg);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-color: var(--primary-light-blue);
+  }
+  
+  .collapsible .toggle-icon {
+    transition: transform 0.3s ease;
+    color: var(--primary-teal);
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
+  .active .toggle-icon {
+    transform: rotate(90deg);
+  }
+  
+  .content {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+  
+  .content-inner {
+    padding: 20px;
+  }
+  
+  /* What's in the Box 特殊样式 */
+  .whats-in-box {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .whats-in-box-img {
+    flex: 0 0 70%;
+    max-width: 70%;
+    padding-right: 20px;
+  }
+  
+  .whats-in-box-text {
+    flex: 0 0 30%;
+    max-width: 30%;
+    padding-left: 10px;
+  }
+  
+  .whats-in-box-img img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+  }
+  
+  /* 响应式图片容器 */
+  .responsive-image {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+  
+  .desktop-img {
+    display: block;
+  }
+  
+  .mobile-img {
+    display: none;
+  }
+  
+  /* 视频部分样式 */
+  .video-section {
+    text-align: center;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 比例 */
+    height: 0;
+    overflow: hidden;
+    max-width: 1800px;
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+  
+  .video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* 图片部分样式 */
+  .image-section {
+    text-align: center;
+  }
+  
+  .image-section img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+  
+  .section-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--primary-dark-blue);
+    text-align: center;
+    font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+    position: relative;
+    padding-bottom: 10px;
+  }
+  
+  .section-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-teal);
+  }
+  
+  .section-subtitle {
+    font-size: 18px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: var(--text-color);
+  }
+  
+  /* 折叠内容带图片的样式 */
+  .feature-item {
+    margin-bottom: 30px;
+  }
+  
+  .feature-text {
+    margin-bottom: 20px;
+    color: var(--text-color);
+  }
+  
+  /* 轮播图样式 */
+  .carousel {
+    position: relative;
+    max-width: 100%;
+    margin: 50px auto;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+  }
+  
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  
+  .carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 0 10px;
+  }
+  
+  .carousel-desktop .carousel-item {
+    min-width: 50%;
+  }
+  
+  .carousel img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+  }
+  
+  .carousel-caption {
+    padding: 20px 15px;
+    text-align: center;
+  }
+  
+  .carousel-caption h3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--primary-dark-blue);
+    font-size: 18px;
+  }
+  
+  .carousel-caption p {
+    color: var(--text-color);
+  }
+  
+  .carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--primary-teal);
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+    transition: all 0.3s;
+  }
+  
+  .carousel-control:hover {
+    opacity: 1;
+    background-color: var(--primary-dark-blue);
+  }
+  
+  .carousel-control.prev {
+    left: 15px;
+  }
+  
+  .carousel-control.next {
+    right: 15px;
+  }
+  
+  /* 多图片带标题部分 */
+  .multi-image-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 50px 0;
+  }
+  
+  .multi-image-item {
+    width: 100%;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  .multi-image-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s;
+  }
+  
+  .multi-image-item img:hover {
+    transform: translateY(-5px);
+  }
+  
+  .multi-image-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--primary-dark-blue);
+    position: relative;
+    padding-bottom: 10px;
+  }
+  
+  .multi-image-title:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: var(--primary-teal);
+  }
+  
+  /* 按钮样式 */
+  .cta-button {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 16px;
+    background-color: var(--primary-teal);
+    color: white;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(45, 158, 161, 0.3);
+  }
+  
+  .cta-button:hover {
+    background-color: var(--primary-dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(45, 158, 161, 0.4);
+  }
+  
+  /* 响应式调整 - 修改手机端样式 */
+  @media (max-width: 767px) {
+    body {
+      padding: 0;
+    }
+    
+    .product-section {
+      max-width: 100%;
+      padding: 0 2px;
+      margin: 5px auto;
+    }
+    
+    .section-title {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    
+    .section-subtitle {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    
+    .carousel-desktop .carousel-item {
+      min-width: 100%;
+    }
+    
+    .collapsible {
+      padding: 12px 8px;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    
+    .content-inner {
+      padding: 10px 8px;
+    }
+    
+    .feature-item {
+      margin-bottom: 15px;
+    }
+    
+    .carousel {
+      margin: 15px auto;
+    }
+    
+    .carousel-caption {
+      padding: 10px 5px;
+    }
+    
+    .carousel-caption h3 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    
+    .carousel-caption p {
+      font-size: 14px;
+    }
+    
+    .multi-image-section {
+      margin: 15px 0;
+      gap: 15px;
+    }
+    
+    .multi-image-item {
+      margin-bottom: 15px;
+    }
+    
+    .whats-in-box-img, 
+    .whats-in-box-text {
+      flex: 0 0 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+    
+    .whats-in-box-text {
+      margin-top: 10px;
+    }
+    
+    .cta-button {
+      margin: 15px auto;
+      padding: 12px;
+      font-size: 16px;
+    }
+    
+    /* 切换图片显示 */
+    .desktop-img {
+      display: none;
+    }
+    
+    .mobile-img {
+      display: block;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .multi-image-item {
+      width: 32%;
+    }
+    
+    /* 确保桌面端显示正确的图片 */
+    .desktop-img {
+      display: block;
+    }
+    
+    .mobile-img {
+      display: none;
+    }
+  }
+</style>
+
+<!-- 第一部分：About this item 折叠栏 -->
+<div class="product-section">
+  <button type="button" class="collapsible">
+    <span style="font-size: 22px;">About this item</span>
+    <span class="toggle-icon">›</span>
+  </button>
+  <div class="content">
+    <div class="content-inner">
+      <p><strong>Always on Video, 24/7 Recording Camera</strong> - Different from standard solar security cameras wireless outdoor, the ZUMIMALL AOV camera overcomes the traditional limitation of solar powered security cameras that only record when detects moving objects. Powered by AI, ZUMIMALL AOV camera Automatically shifts to full frame rate upon motion detection and reduces it during inactivity for efficient 24/7 surveillance.</p>
+      <p><strong>Solar-Powered &amp; Wireless</strong> – 8W solar panel + 2×4000mAh battery enable 24/7 recording with just 2 hours of daily charging. Fully wireless for easy installation anywhere.</p>
+      <p><strong>Auto-Tracking 360° PTZ</strong> - The wireless outdoor camera automatically follows and records moving objects with 355° pan and 90° tilt, ensuring full coverage with no blind spots—no manual control needed.</p>
+      <p><strong>Enhanced Night Vision &amp; AI Detection</strong> – 6 IR + 14 white LEDs for color night vision; AI identifies people, pets, vehicles, and packages with high accuracy.</p>
+      <p><strong>Active Security Deterrents</strong> – Audio siren, blinding spotlights, instant app alerts, and 2-way talk to scare off intruders.</p>
+      <p><strong>Dual Storage Options</strong> – Supports local storage (up to 512GB, not included) or free 6-sec cloud storage (7-day retention). Shareable with family.</p>
+      <p><strong>Extreme Weather Resistance</strong> – Operates in -4°F to 122°F (-20°C to 50°C); rain, sun, and freeze-proof with stable 2.4GHz WiFi (no 5G).</p>
+      <p><strong>H.265 &amp; Bluetooth Setup</strong> – Smoother streaming/storage with H.265; quick Bluetooth pairing for hassle-free installation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 第二部分：视频部分 -->
+<div class="product-section video-section">
+  <div class="video-container">
+    <video controls poster="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/A60_0deb91fc-6516-4a2f-81ed-967427c88388.jpg?v=1749805031">
+      <source src="https://cdn.shopify.com/videos/c/o/v/d6cf6f423c04436887ca8cb6ff72db9e.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </source></video>
+  </div>
+</div>
+
+<!-- 第三部分：图片带标题 -->
+<div class="product-section image-section">
+  <h2 class="section-title">Upgraded ! ZUMIMALL AOV Camera</h2>
+  <p class="section-subtitle">24H Continuous Recording Security Cameras Wireless Outdoor</p>
+  <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_2-1.jpg?v=1749782592" alt="ZUMIMALL AOV Camera" class="responsive-image">
+</div>
+
+<!-- 第四部分：5个折叠栏带图片 -->
+<div class="product-section">
+  <!-- 第一个折叠项 -->
+  <div class="feature-item">
+    <button type="button" class="collapsible active">
+   <span style="font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif; font-size: 14px;">8W High-Efficiency Solar Panel Charges</span>
+      <span class="toggle-icon">›</span>
+    </button>
+    <div class="content" style="max-height: 1000px;">
+      <div class="content-inner">
+        <p class="feature-text">24/7 solar-powered camera with 8W panel &amp; 2×4000mAh battery—just 2 hours of daily charging. 100% wireless, easy to install anywhere.</p>
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_2-2.jpg?v=1749782591">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/2-2_032559b3-83c6-44ec-a087-2c327930f6fc.jpg?v=1750150370">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_2-2.jpg?v=1749782591" alt="8W High-Efficiency Solar Panel" class="responsive-image"></source></picture>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 第二个折叠项 -->
+  <div class="feature-item">
+    <button type="button" class="collapsible active">
+      <span style="font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;">Install Once,Protect Forever</span>
+      <span class="toggle-icon">›</span>
+    </button>
+    <div class="content" style="max-height: 1000px;">
+      <div class="content-inner">
+        <p class="feature-text">Minimizes climbing needs Delivers True Wireless</p>
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_2-3.jpg?v=1749782591">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/2-3_a9bdf13d-9bd4-4985-9994-e5e90b8a93cb.jpg?v=1750150370">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_2-3.jpg?v=1749782591" alt="Install Once, Protect Forever" class="responsive-image"></source></picture>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 第三个折叠项 -->
+  <div class="feature-item">
+    <button type="button" class="collapsible active">
+      <span style="font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;">IP65 Weatherproof</span>
+      <span class="toggle-icon">›</span>
+    </button>
+    <div class="content" style="max-height: 1000px;">
+      <div class="content-inner">
+        <p class="feature-text">Suitable for outdoor use under all weather conditions</p>
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_2-4_ip65.jpg?v=1749782593">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/2-4_ip65_35dd16d0-763e-4053-a355-60dcddb96901.jpg?v=1750150370">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_2-4_ip65.jpg?v=1749782593" alt="IP65 Weatherproof" class="responsive-image"></source></picture>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 第四个折叠项 -->
+  <div class="feature-item">
+    <button type="button" class="collapsible active">
+      <span style="font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;">Cloud/Local Storage</span>
+      <span class="toggle-icon">›</span>
+    </button>
+    <div class="content" style="max-height: 1000px;">
+      <div class="content-inner">
+        <p class="feature-text">24/7 continuous SD card recording and cloud storage(not mandatory)to record important moments for you.</p>
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_2-5_-2.jpg?v=1749782594">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/2-5_bfe6587d-5bca-41ac-9b4a-fef18cfae04e.jpg?v=1750150370">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_2-5_-2.jpg?v=1749782594" alt="Cloud/Local Storage" class="responsive-image"></source></picture>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 第五个折叠项 -->
+  <div class="feature-item">
+    <button type="button" class="collapsible active">
+      <span style="font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;">Two-Way Audio &amp; Al Voice Privacy</span>
+      <span class="toggle-icon">›</span>
+    </button>
+    <div class="content" style="max-height: 1000px;">
+      <div class="content-inner">
+        <p class="feature-text">No matter how far away you can easily talk through the camera and select the intercom sound to protecting your privacy</p>
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-1.jpg?v=1749782590">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/4-1_5c988ef1-4238-4267-9213-438a9410ab8d.jpg?v=1750150303">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-1.jpg?v=1749782590" alt="Two-Way Audio" class="responsive-image"></source></picture>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 第五部分：4张图片轮播（电脑端一行2个，手机端全宽） -->
+<div class="product-section">
+  <h2 class="section-title">Key Features</h2>
+  <div class="carousel carousel-desktop" id="carousel1">
+    <div class="carousel-inner">
+      <!-- 轮播项1 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-1_360.jpg?v=1749782583">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-1_360.jpg?v=1749782583">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-1_360.jpg?v=1749782583" alt="360° Coverage" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>360° Coverage &amp; Smart Human Tracking</h3>
+          <p>Solar camera outdoor wireless eliminates blind spots to monitor your porch, yard, and driveway</p>
+        </div>
+      </div>
+      <!-- 轮播项2 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-1_PIR.jpg?v=1749782583">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-1_PIR.jpg?v=1749782583">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-1_PIR.jpg?v=1749782583" alt="Free AI &amp; PIR Detection" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>Free Al &amp; PlR Detection</h3>
+          <p>Enjoy free enhanced person and vehicle detection-just enable it in settings</p>
+        </div>
+      </div>
+      <!-- 轮播项3 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-3_2K.jpg?v=1749782586">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-3_2K.jpg?v=1749782586">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-3_2K.jpg?v=1749782586" alt="True 3MP Resolution" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>Ture 3MP Resolution</h3>
+          <p>True 3MP delivers authentic high-resolution imaging while Pseudo 3MP merely upscales lower-quality footage</p>
+        </div>
+      </div>
+      <!-- 轮播项4 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-3.jpg?v=1749782584">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-3.jpg?v=1749782584">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_3-3.jpg?v=1749782584" alt="2K Color Night Vision" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>2K Color Night Vision</h3>
+          <p>2K color night vision captures vivid details in darkness,while black and white night vision only shows grayscale images.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control prev">❮</button>
+    <button class="carousel-control next">❯</button>
+  </div>
+</div>
+
+<!-- 第六部分：7张图片轮播（电脑端一行1个，手机端全宽） -->
+<div class="product-section">
+  <h2 class="section-title">Advanced Features</h2>
+  <div class="carousel" id="carousel2">
+    <div class="carousel-inner">
+      <!-- 轮播项1 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-2.jpg?v=1749782589">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/4-2_3a92d076-fe4d-4269-8364-9fc44744a00f.jpg?v=1750150303">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-2.jpg?v=1749782589" alt="Multiple Alarm Modes" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>Multiple Alarm Modes</h3>
+        </div>
+      </div>
+      <!-- 轮播项2 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-3.jpg?v=1749782591">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/4-3_36b0c3b7-fe4c-4fc0-9349-fecb2f972c4d.jpg?v=1750150303">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-3.jpg?v=1749782591" alt="Customized Detection Area" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>Customized Detection Area</h3>
+        </div>
+      </div>
+      <!-- 轮播项3 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-4_alexa.jpg?v=1749782592">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/4-4_Alexa_78da51da-9bb3-4dd1-99b8-c3bcf7ac360a.jpg?v=1750150304">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-4_alexa.jpg?v=1749782592" alt="Works with Alexa" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>Works with Alexa</h3>
+        </div>
+      </div>
+      <!-- 轮播项4 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-5_H.265.jpg?v=1749782590">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/4-5_H265_86595de8-8f4c-4e34-9479-6e72d72c45d6.jpg?v=1750150303">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_4-5_H.265.jpg?v=1749782590" alt="Advanced H.265+ Compression" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>Advanced H.265+ Compression</h3>
+        </div>
+      </div>
+      <!-- 轮播项5 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-3.jpg?v=1749782591">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/6-3_da85aee8-7708-4aa6-afff-80c6051ab0fe.jpg?v=1750150303">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-3.jpg?v=1749782591" alt="Multi-User Sharing" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>Multi-User Sharing</h3>
+        </div>
+      </div>
+      <!-- 轮播项6 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-4.jpg?v=1749782593">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/6-4_dbd46008-c370-4fca-b5b6-bafc399f0918.jpg?v=1750150304">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-4.jpg?v=1749782593" alt="Multi-Camera Management" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>Multi-Camera Management</h3>
+        </div>
+      </div>
+      <!-- 轮播项7 -->
+      <div class="carousel-item">
+        <picture>
+          <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-5.jpg?v=1749782586">
+          <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/6-5_7bcd5de1-21bd-44ac-a4f4-a1390f6234ab.jpg?v=1750150303">
+          <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-5.jpg?v=1749782586" alt="Multi-Mode Selection" class="responsive-image"></source></picture>
+        <div class="carousel-caption">
+          <h3>Multi-Mode Selection</h3>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control prev">❮</button>
+    <button class="carousel-control next">❯</button>
+  </div>
+</div>
+
+<!-- 第七部分：3张图片带标题（竖向排列，无轮播，上方文字下方图片） -->
+<div class="product-section">
+  <div class="multi-image-section" style="display: flex; flex-direction: column; gap: 15px;">
+    <!-- 图片1 -->
+    <div class="multi-image-item" style="width: 100%; text-align: center;">
+      <h3 class="multi-image-title">Installation Tips</h3>
+      <picture>
+        <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-1.jpg?v=1749782594">
+        <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/6-1_64dee1dc-4bf7-4dbc-87ce-a1713bbaba71.jpg?v=1750147296">
+        <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-1.jpg?v=1749782594" alt="Installation Tips" style="max-width: 100%; height: auto; border-radius: 8px;" class="responsive-image"></source></picture>
+    </div>
+    
+    <!-- 图片2 -->
+    <div class="multi-image-item" style="width: 100%; text-align: center;">
+      <h3 class="multi-image-title">Connection Steps</h3>
+      <picture>
+        <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-2_app.jpg?v=1749782588">
+        <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/6-2_APP.jpg?v=1750147295">
+        <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_6-2_app.jpg?v=1749782588" alt="Connection Steps" style="max-width: 100%; height: auto; border-radius: 8px;" class="responsive-image"></source></picture>
+    </div>
+    
+    <!-- 图片3 -->
+    <div class="multi-image-item" style="width: 100%; text-align: center;">
+      <h3 class="multi-image-title">Multiple Scenarios</h3>
+      <picture>
+        <source media="(min-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_5-1.jpg?v=1749782595">
+        <source media="(max-width: 767px)" srcset="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/5-1_5c39eaac-e278-4d24-9173-7afc9ee97935.jpg?v=1750147296">
+        <img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/AOV_5-1.jpg?v=1749782595" alt="Multiple Scenarios" style="max-width: 100%; height: auto; border-radius: 8px;" class="responsive-image"></source></picture>
+    </div>
+  </div>
+</div>
+<!-- 第八部分：What's in the Box 折叠栏 -->
+<div class="product-section">
+<button type="button" class="collapsible active" style="background-color: #f1f9f9;"> <span style="font-size: 22px;">What's in the Box?</span> <span class="toggle-icon">›</span> </button>
+<div class="content" style="max-height: 1000px; background-color: #f1f9f9;">
+<div class="content-inner whats-in-box">
+<div class="whats-in-box-img"><img src="https://cdn.shopify.com/s/files/1/0262/6227/4147/files/6-_-_A0V.jpg?v=1749793924" alt="What's in the Box"></div>
+<div class="whats-in-box-text">
+<p style="font-weight: bold; color: var(--primary-dark-blue);">A60 Camera*1<br>8W Solar Panel*1<br>Charging Cable*1<br>User Manual*1<br>Screws Set*2<br>Warning Card*1<br>Positioning Sticker*1</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 第九部分：按钮 -->
+<div class="product-section"><a href="https://www.zumimall.com/pages/videos-for-zumimall-aov-camera-a60" class="cta-button">Videos for ZUMIMALL AOV Camera-A60</a></div>
+
+<script>
+  // 折叠面板功能修正
+  document.addEventListener('DOMContentLoaded', function() {
+    var coll = document.getElementsByClassName("collapsible");
+    for (var i = 0; i < coll.length; i++) {
+      var button = coll[i];
+      var content = button.nextElementSibling;
+      // 默认展开
+      if (button.classList.contains("active")) {
+        content.style.maxHeight = content.scrollHeight + "px";
+      } else {
+        content.style.maxHeight = null;
+      }
+      button.addEventListener("click", function() {
+        var content = this.nextElementSibling;
+        this.classList.toggle("active");
+        // 收起或展开
+        if (this.classList.contains("active")) {
+          content.style.maxHeight = content.scrollHeight + "px";
+        } else {
+          content.style.maxHeight = null;
+        }
+      });
+    }
+
+    // 初始化轮播
+    initCarousel('carousel1');
+    initCarousel('carousel2');
+    // 响应式重绘
+    window.addEventListener('resize', function() {
+      redrawCarousel('carousel1');
+      redrawCarousel('carousel2');
+    });
+
+    // 轮播按钮事件绑定
+    document.querySelectorAll('.carousel').forEach(function(carousel) {
+      const prevBtn = carousel.querySelector('.carousel-control.prev');
+      const nextBtn = carousel.querySelector('.carousel-control.next');
+      const id = carousel.id;
+      if (prevBtn) prevBtn.onclick = function() { moveCarousel(id, -1); };
+      if (nextBtn) nextBtn.onclick = function() { moveCarousel(id, 1); };
+
+      // 绑定滑动和拖动事件
+      addCarouselSwipeListeners(carousel, id);
+    });
+  });
+
+  // 轮播核心变量
+  const carouselStates = {};
+
+  // 轮播初始化
+  function initCarousel(carouselId) {
+    const carousel = document.getElementById(carouselId);
+    if (!carousel) return;
+    const inner = carousel.querySelector('.carousel-inner');
+    const items = carousel.querySelectorAll('.carousel-item');
+    let visibleCount = carousel.classList.contains('carousel-desktop') && window.innerWidth >= 768 ? 2 : 1;
+    carouselStates[carouselId] = {
+      current: 0,
+      visible: visibleCount,
+      total: items.length
+    };
+    updateCarousel(carouselId, 0);
+  }
+
+  // 轮播移动（修正分页与循环）
+  function moveCarousel(carouselId, direction) {
+    const state = carouselStates[carouselId];
+    if (!state) return;
+    let {visible, total, current} = state;
+    const totalPages = Math.ceil(total / visible);
+    let curPage = Math.floor(current / visible);
+    curPage = (curPage + direction + totalPages) % totalPages;
+    let newIndex = curPage * visible;
+    if(newIndex >= total) newIndex = 0;
+    updateCarousel(carouselId, newIndex);
+  }
+
+  // 轮播更新
+  function updateCarousel(carouselId, newIndex) {
+    const carousel = document.getElementById(carouselId);
+    const inner = carousel.querySelector('.carousel-inner');
+    const state = carouselStates[carouselId];
+    if (!carousel || !inner || !state) return;
+    state.current = newIndex;
+    state.visible = carousel.classList.contains('carousel-desktop') && window.innerWidth >= 768 ? 2 : 1;
+    let items = inner.querySelectorAll('.carousel-item');
+    for (let item of items) {
+      item.style.minWidth = (100 / state.visible) + '%';
+    }
+    const totalPages = Math.ceil(state.total / state.visible);
+    let curPage = Math.floor(newIndex / state.visible);
+    const percent = -(100 * curPage);
+    inner.style.transform = `translateX(${percent}%)`;
+    inner.dataset.currentIndex = newIndex;
+  }
+
+  // 响应式重绘轮播
+  function redrawCarousel(carouselId) {
+    const carousel = document.getElementById(carouselId);
+    const state = carouselStates[carouselId];
+    if (!carousel || !state) return;
+    let oldVisible = state.visible;
+    state.visible = carousel.classList.contains('carousel-desktop') && window.innerWidth >= 768 ? 2 : 1;
+    let curPage = Math.floor(state.current / oldVisible);
+    let newIndex = curPage * state.visible;
+    if (newIndex >= state.total) newIndex = 0;
+    updateCarousel(carouselId, newIndex);
+  }
+
+  // 轮播滑动与拖动支持
+  function addCarouselSwipeListeners(carousel, carouselId) {
+    const inner = carousel.querySelector('.carousel-inner');
+    if (!inner) return;
+
+    // Touch events
+    let startX = 0, startY = 0, moved = false;
+
+    inner.addEventListener('touchstart', function(e) {
+      if (e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      moved = false;
+    }, {passive: true});
+
+    inner.addEventListener('touchmove', function(e) {
+      if (e.touches.length !== 1) return;
+      const dx = e.touches[0].clientX - startX;
+      const dy = e.touches[0].clientY - startY;
+      moved = Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy);
+      // 可选：阻止页面滚动
+      if (moved) e.preventDefault();
+    }, {passive: false});
+
+    inner.addEventListener('touchend', function(e) {
+      if (!moved) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      if (dx > 30) moveCarousel(carouselId, -1);
+      else if (dx < -30) moveCarousel(carouselId, 1);
+      moved = false;
+    });
+
+    // Mouse drag events
+    let isDragging = false, dragStartX = 0, dragStartY = 0;
+    inner.addEventListener('mousedown', function(e) {
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      inner.style.cursor = 'grabbing';
+    });
+    inner.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+      const dx = e.clientX - dragStartX;
+      const dy = e.clientY - dragStartY;
+      if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) moveCarousel(carouselId, -1);
+        else moveCarousel(carouselId, 1);
+        isDragging = false;
+        inner.style.cursor = '';
+      }
+    });
+    inner.addEventListener('mouseup', function() {
+      isDragging = false;
+      inner.style.cursor = '';
+    });
+    inner.addEventListener('mouseleave', function() {
+      isDragging = false;
+      inner.style.cursor = '';
+    });
+  }
+
+  // 暴露给HTML按钮
+  window.moveCarousel = moveCarousel;
+</script>
